@@ -26,29 +26,39 @@
 
 <body>
     <header>
-        <h1 class="text-center my-4">Welcome to Phone Finder <i class="fa-solid fa-magnifying-glass"></i></h1>
+        <h1 class="text-center my-4 container">Welcome to Phone Finder <i class="fa-solid fa-magnifying-glass"></i></h1>
     </header>
     <main>
 
         <!-- search section  -->
-        <section class="container d-flex justify-content-center gap-3 my-5">
+        <section class="container d-flex justify-content-center gap-2 my-5">
             <input id="search-input" class="rounded border-1" type="text">
-            <button onclick="getSearch()" class="btn btn-info "><i
+            <button onclick="getSearch()" class="btn btn-info"><i
                     class="fa-solid fa-magnifying-glass"></i>Search</button>
+        </section>
+
+        <!-- phone details  -->
+        <!-- Modal -->
+        <section>
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div id="phone-details" class="modal-body">
+                            <div class="modal-body">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- search result section  -->
         <section class="container my-5">
             <div id="search-result" class="row row-cols-1 row-cols-sm-3 g-4">
-                <!-- <div class="col">
-                    <div class="card">
-                        <img src="" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">title</h5>
-                            <p class="card-text">band name </p>
-                        </div>
-                    </div>
-                </div> -->
+
             </div>
         </section>
 
