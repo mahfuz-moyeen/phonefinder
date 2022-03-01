@@ -37,7 +37,11 @@ body{
     color: rgb(255, 120, 57); 
     border: 1px solid rgb(255, 135, 79);  
 }
-
+/* spinner section  */
+#spinner-section{
+    color: rgb(255, 120, 57);
+    display: none;
+}
 
 /* not found section  */
 #not-found{
@@ -66,13 +70,10 @@ body{
 }
 #phone-details h4{
     text-align: end;
-    font-size: 18px;
+    font-size: 16px;
     color: rgb(255, 105, 36);
 }
-#phone-details h5{
-    font-size: 16px;
-    color: rgb(255, 120, 57);
-}
+
 #phone-details p{
     font-size: 14px;
 }

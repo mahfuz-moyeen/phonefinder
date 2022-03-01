@@ -3,12 +3,19 @@ const searchResult = document.getElementById('search-result');
 const phoneDetails = document.getElementById('phone-details');
 phoneDetails.className ='row align-items-center';
 
+
 // get data by search
 const getSearch = () => {
+    document.getElementById('not-found').style.display = "none";
+    document.getElementById('spinner-section').style.display='block';
     searchResult.innerHTML = '';
     const searchInput = document.getElementById('search-input');
     const searchValue = searchInput.value.toLowerCase();
+    
     if (searchValue === '') {
+        searchResult.innerHTML = '';
+        document.getElementById('not-found').style.display = "none";
+        document.getElementById('spinner-section').style.display='none';
         alert('You did not search anything');
     }
     else {
@@ -20,10 +27,8 @@ const getSearch = () => {
 
 // display search result
 const displayResult = results => {
-    console.log(results)
     if (results.length !== 0) {
         document.getElementById('not-found').style.display = "none";
-
         //search result
         results.forEach(result => {
             if (results.indexOf(result) < 20) {
@@ -42,9 +47,11 @@ const displayResult = results => {
                 searchResult.appendChild(div);
             }
         });
+        document.getElementById('spinner-section').style.display='none';
     }
     else {
         document.getElementById('not-found').style.display = "block";
+        document.getElementById('spinner-section').style.display='none';
     }
 };
 
@@ -68,7 +75,7 @@ const displayDetails = data => {
     div.innerHTML = `
         <div class="d-flex justify-content-center"><img class="w-50" src="${data.image}"></div>
         <h1 class="text-center my-2">${data.name}</h1>
-        <h3 class="text-center fs-3 my-2">${data.brand}</h3>
+        <h3 class="text-center fs-4 my-2">Band: ${data.brand}</h3>
     `;
     phoneDetails.appendChild(div);
 
@@ -126,9 +133,6 @@ const displayDetails = data => {
     if(data.others !== undefined){
         othersDiv.innerHTML=`
         <div class="row">
-        <div class="col-sm-4 col-4">
-            <h4>Others:</h4>
-        </div>
         </div>`
         for (const prop in data.others) {
             const div = document.createElement('div');
@@ -136,7 +140,7 @@ const displayDetails = data => {
             div.innerHTML = `
                     <div class="row">
                         <div class="col-sm-4 col-4">
-                            <h5 class="text-end">${prop}:</h5>
+                            <h4 class="text-end">${prop}:</h4>
                         </div>
                         <div class="col-sm-8 col-8">
                              <p>${data.others[prop]}</p>
@@ -154,6 +158,7 @@ const displayDetails = data => {
 };
 
 const dropDown = text =>{
+    searchResult.innerHTML = '';
     fetch(`https://openapi.programming-hero.com/api/phones?search=${text}`)
     .then(response => response.json())
     .then(data => displayResult(data.data))
