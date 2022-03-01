@@ -7,6 +7,7 @@ phoneDetails.className ='row align-items-center';
 // get data by search
 const getSearch = () => {
     document.getElementById('show-more-button').style.display ='none';
+    document.getElementById('show-more-display').style.display = 'none';
     document.getElementById('not-found').style.display = "none";
     document.getElementById('spinner-section').style.display='block';
     searchResult.innerHTML = '';
@@ -181,7 +182,6 @@ const showDisplay =(data , section) =>{
 };
 
 
-
 // show more button 
 const showOverResult = () =>{
     document.getElementById('show-more-display').style.display = 'block';
@@ -191,6 +191,8 @@ const showOverResult = () =>{
 // navbar dropdown section
 const dropDown = text =>{
     searchResult.innerHTML = '';
+    showMoreResult.innerHTML='';
+    document.getElementById('show-more-display').style.display = 'none';
     document.getElementById('not-found').style.display = "none";
     document.getElementById('spinner-section').style.display='block';
     fetch(`https://openapi.programming-hero.com/api/phones?search=${text}`)

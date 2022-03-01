@@ -88,3 +88,19 @@ body{
 #phone-details p{
     font-size: 14px;
 }
+
+/* footer  */
+.footer-section{
+    position: relative;
+    min-height: 70vh;
+  }
+
+.footer-text{
+     position: absolute;
+     bottom: 0;
+     background-color: rgb(15, 15, 15);
+     width: 100%;
+     color: rgb(160, 160, 160);
+     text-align: center;
+     padding: 10px;
+ }
