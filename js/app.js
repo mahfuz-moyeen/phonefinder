@@ -1,32 +1,51 @@
 // html section id 
 const searchResult = document.getElementById('search-result');
 const phoneDetails = document.getElementById('phone-details');
+phoneDetails.className ='row align-items-center';
 
 // get data by search
 const getSearch = () => {
-
-    fetch('https://openapi.programming-hero.com/api/phones?search=iphone')
-        .then(response => response.json())
-        .then(data => displayResult(data.data))
+    searchResult.innerHTML = '';
+    const searchInput = document.getElementById('search-input');
+    const searchValue = searchInput.value.toLowerCase();
+    if (searchValue === '') {
+        alert('You did not search anything');
+    }
+    else {
+        fetch(`https://openapi.programming-hero.com/api/phones?search=${searchValue}`)
+            .then(response => response.json())
+            .then(data => displayResult(data.data))
+    };
 };
 
 // display search result
 const displayResult = results => {
-    results.forEach(result => {
-        const div = document.createElement('div');
-        div.className = 'col';
-        div.innerHTML = `
-            <div class="card border-0">
-                <img src="${result.image}" class="card-img-top w-50 mx-auto mt-3" alt="${result.phone_name}">
-                <div class="card-body text-center">
-                    <h5 class="card-title">${result.phone_name}</h5>
-                    <p class="card-text mb-2">Band: ${result.brand}</p>
-                    <button class="btn btn-info" onclick="getDetails('${result.slug}')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">See Details</button>
+    console.log(results)
+    if (results.length !== 0) {
+        document.getElementById('not-found').style.display = "none";
+
+        //search result
+        results.forEach(result => {
+            if (results.indexOf(result) < 2) {
+                const div = document.createElement('div');
+                div.className = 'col';
+                div.innerHTML = `
+                <div class="card border-0">
+                    <img src="${result.image}" class="card-img-top w-50 mx-auto mt-3" alt="${result.phone_name}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">${result.phone_name}</h5>
+                        <p class="card-text mb-2">Band: ${result.brand}</p>
+                        <button class="btn btn-info" onclick="getDetails('${result.slug}')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">See Details</button>
+                    </div>
                 </div>
-            </div>
-         `;
-        searchResult.appendChild(div);
-    });
+                 `;
+                searchResult.appendChild(div);
+            }
+        });
+    }
+    else {
+        document.getElementById('not-found').style.display = "block";
+    }
 };
 
 // get phone details to api
@@ -39,10 +58,13 @@ const getDetails = id => {
 
 };
 
+
+
 // display phone details 
 const displayDetails = data => {
-    console.log(data)
+    phoneDetails.innerHTML = '';
     const div = document.createElement('div');
+    div.className = 'details-photo col-sm-6'
     div.innerHTML = `
         <div class="d-flex justify-content-center"><img class="w-50" src="${data.image}"></div>
         <h1 class="text-center my-2">${data.name}</h1>
@@ -51,20 +73,20 @@ const displayDetails = data => {
     phoneDetails.appendChild(div);
 
     const detailsDiv = document.createElement('div');
-    detailsDiv.className ='container-fluid';
-    detailsDiv.innerHTML =`
+    detailsDiv.className = 'container-fluid details-text col-sm-6 my-3';
+    detailsDiv.innerHTML = `
     <div class="row">
         <div class="row">
             <div class="col-sm-4 col-4">
-                <h5>Release Date:</h5>
+                <h4>Release Date:</h4>
             </div>
             <div class="col-sm-8 col-8">
-                 <p>${data.releaseDate}</p>
+                 <p>${data?.releaseDate || 'No release Date found'}</p>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-4 col-4">
-                <h5>Display Size:</h5>
+                <h4>Display Size:</h4>
             </div>
             <div class="col-sm-8 col-8">
                  <p>${data.mainFeatures.displaySize}</p>
@@ -72,7 +94,7 @@ const displayDetails = data => {
         </div>
         <div class="row">
             <div class="col-sm-4 col-4">
-                <h5>chipSet:</h5>
+                <h4>chipSet:</h4>
             </div>
             <div class="col-sm-8 col-8">
                  <p>${data.mainFeatures.chipSet}</p>
@@ -80,7 +102,7 @@ const displayDetails = data => {
         </div>
         <div class="row">
             <div class="col-sm-4 col-4">
-                <h5>Memory:</h5>
+                <h4>Memory:</h4>
             </div>
             <div class="col-sm-8 col-8">
                  <p>${data.mainFeatures.memory}</p>
@@ -88,7 +110,7 @@ const displayDetails = data => {
         </div>
         <div class="row">
             <div class="col-sm-4 col-4">
-                <h5>Sensors:</h5>
+                <h4>Sensors:</h4>
             </div>
             <div class="col-sm-8 col-8" id="sensors-div">
                 <p>${data.mainFeatures.sensors.join(", ")}</p>
@@ -97,21 +119,36 @@ const displayDetails = data => {
         </div>
     </div>
     `;
+    phoneDetails.appendChild(detailsDiv);
 
-        for(const prop in data.others){
-            const othersDiv = document.createElement('div');
-            othersDiv.className ='row';
-            othersDiv.innerHTML =`
-                <div class="row">
-                    <div class="col-sm-4 col-4">
-                        <h5>${prop}</h5>
-                    </div>
-                    <div class="col-sm-8 col-8">
-                         <p>${data.others[prop]}</p>
-                    </div>
-            `;
+    // display others details 
+    const othersDiv = document.createElement('div');
+    if(data.others !== undefined){
+        othersDiv.innerHTML=`
+        <div class="row">
+        <div class="col-sm-4 col-4">
+            <h4>Others:</h4>
+        </div>
+        </div>`
+        for (const prop in data.others) {
+            const div = document.createElement('div');
+            div.className = 'row';
+            div.innerHTML = `
+                    <div class="row">
+                        <div class="col-sm-4 col-4">
+                            <h5 class="text-end">${prop}:</h5>
+                        </div>
+                        <div class="col-sm-8 col-8">
+                             <p>${data.others[prop]}</p>
+                        </div>
+                `;
+            othersDiv.appendChild(div);
             detailsDiv.appendChild(othersDiv);
         };
+    }
+    else{
+        othersDiv.innerHTML ='';
+        detailsDiv.appendChild(othersDiv);
+    }
     phoneDetails.appendChild(detailsDiv);
 };
-

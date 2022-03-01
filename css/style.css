@@ -7,3 +7,32 @@
 body{
     font-family: 'Poppins', sans-serif;
 }
+
+#not-found{
+    display: none;
+}
+
+
+.details-photo{
+    margin: 20px auto;
+    align-items: center;
+}
+
+
+/* #phone-details{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
+#phone-details h4{
+    font-size: 18px;
+    text-align: end;
+    color: rgb(255, 105, 36);
+}
+#phone-details h5{
+    font-size: 16px;
+    color: rgb(255, 120, 57);
+}
+#phone-details p{
+    font-size: 14px;
+}
