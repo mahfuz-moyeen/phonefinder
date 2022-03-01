@@ -6,6 +6,7 @@ phoneDetails.className ='row align-items-center';
 
 // get data by search
 const getSearch = () => {
+    document.getElementById('result-found').style.display= "none";
     document.getElementById('show-more-button').style.display ='none';
     document.getElementById('show-more-display').style.display = 'none';
     document.getElementById('not-found').style.display = "none";
@@ -36,6 +37,8 @@ const displayResult = data => {
     // search not found check
     if (data.length !== 0) {
         document.getElementById('not-found').style.display = "none";
+        document.getElementById('result-text').innerText =`${data.length}`;
+        document.getElementById('result-found').style.display= "block";
         //search result
         const topTwenty = data.filter(result => data.indexOf(result) < 20);
         showDisplay(topTwenty,searchResult);
