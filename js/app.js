@@ -203,6 +203,7 @@ const showOverResult = () =>{
 const dropDown = text =>{
     searchResult.innerHTML = '';
     showMoreResult.innerHTML='';
+    document.getElementById('fill-error').style.display ='none';
     document.getElementById('show-more-display').style.display = 'none';
     document.getElementById('not-found').style.display = "none";
     document.getElementById('spinner-section').style.display='block';
