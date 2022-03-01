@@ -1,17 +1,21 @@
 // html section id 
 const searchResult = document.getElementById('search-result');
+const showMoreResult = document.getElementById('show-more-result');
 const phoneDetails = document.getElementById('phone-details');
 phoneDetails.className ='row align-items-center';
 
 // get data by search
 const getSearch = () => {
+    document.getElementById('show-more-button').style.display ='none';
     document.getElementById('not-found').style.display = "none";
     document.getElementById('spinner-section').style.display='block';
     searchResult.innerHTML = '';
+    showMoreResult.innerHTML='';
 
+    //take input value
     const searchInput = document.getElementById('search-input');
     const searchValue = searchInput.value.toLowerCase();
-
+    // error check
     if (searchValue === '') {
         searchResult.innerHTML = '';
         document.getElementById('not-found').style.display = "none";
@@ -27,27 +31,26 @@ const getSearch = () => {
 };
 
 // display search result
-const displayResult = results => {
-    if (results.length !== 0) {
+const displayResult = data => {
+    // search not found check
+    if (data.length !== 0) {
         document.getElementById('not-found').style.display = "none";
         //search result
-        results.forEach(result => {
-            if (results.indexOf(result) < 20) {
-                const div = document.createElement('div');
-                div.className = 'col';
-                div.innerHTML = `
-                <div class="card border-0">
-                    <img src="${result.image}" class="card-img-top w-50 mx-auto mt-3" alt="${result?.phone_name || ''}">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">${result?.phone_name || ''}</h5>
-                        <p class="card-text mb-2">Band: ${result?.brand ||''}</p>
-                        <button class="btn btn-info details-button" onclick="getDetails('${result.slug}')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">See Details</button>
-                    </div>
-                </div>
-                 `;
-                searchResult.appendChild(div);
+        const topTwenty = data.filter(result => data.indexOf(result) < 20);
+        showDisplay(topTwenty,searchResult);
+        // over twenty result
+        const overTwenty = data.filter(result => data.indexOf(result) >= 2);
+        showDisplay(overTwenty,showMoreResult);
+        
+        // show more button no off
+        data.forEach(result => {
+            if(data.indexOf(result)>=20){
+                document.getElementById('show-more-button').style.display ='block';
             }
-        });
+            else{
+                document.getElementById('show-more-button').style.display ='none';
+            }
+        })
         document.getElementById('spinner-section').style.display='none';
     }
     else {
@@ -56,21 +59,20 @@ const displayResult = results => {
     }
 };
 
+
 // get phone details to api
 const getDetails = id => {
     const url = `https://openapi.programming-hero.com/api/phone/${id}`
 
     fetch(url)
-        .then(response => response.json())
-        .then(data => displayDetails(data.data))
-
+    .then(response => response.json())
+    .then(data => displayDetails(data.data))
 };
-
-
 
 // display phone details 
 const displayDetails = data => {
     phoneDetails.innerHTML = '';
+    // title section
     const div = document.createElement('div');
     div.className = 'details-photo col-sm-6'
     div.innerHTML = `
@@ -80,6 +82,7 @@ const displayDetails = data => {
     `;
     phoneDetails.appendChild(div);
 
+    // details section
     const detailsDiv = document.createElement('div');
     detailsDiv.className = 'container-fluid details-text col-sm-6 my-3';
     detailsDiv.innerHTML = `
@@ -102,7 +105,7 @@ const displayDetails = data => {
         </div>
         <div class="row">
             <div class="col-sm-4 col-4">
-                <h4>chipSet:</h4>
+                <h4>ChipSet:</h4>
             </div>
             <div class="col-sm-8 col-8">
                  <p>${data.mainFeatures?.chipSet || 'No found'}</p>
@@ -158,6 +161,34 @@ const displayDetails = data => {
     phoneDetails.appendChild(detailsDiv);
 };
 
+// show display result function
+const showDisplay =(data , section) =>{
+    data.forEach(result => {
+        const div = document.createElement('div');
+        div.className = 'col';
+        div.innerHTML = `
+        <div class="card border-0">
+            <img src="${result.image}" class="card-img-top w-50 mx-auto mt-3" alt="${result?.phone_name || ''}">
+            <div class="card-body text-center">
+                <h5 class="card-title phone-title">${result?.phone_name || ''}</h5>
+                <p class="card-text mb-2">Band: ${result?.brand ||''}</p>
+                <button class="btn btn-info details-button" onclick="getDetails('${result.slug}')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">See Details</button>
+            </div>
+        </div>
+         `;
+        section.appendChild(div);
+    });
+};
+
+
+
+// show more button 
+const showOverResult = () =>{
+    document.getElementById('show-more-display').style.display = 'block';
+    document.getElementById('show-more-button').style.display ='none';
+};
+
+// navbar dropdown section
 const dropDown = text =>{
     searchResult.innerHTML = '';
     document.getElementById('not-found').style.display = "none";

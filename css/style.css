@@ -10,7 +10,7 @@ body{
 
 /* nav bar  */
 .nav-section{
-    background-color: rgb(255, 152, 104);
+    background-color: rgba(255, 150, 102, 0.959);
 }
 .nav-text a:hover{
     text-decoration: underline;
@@ -45,6 +45,17 @@ body{
 
 /* not found section  */
 #not-found{
+    display: none;
+}
+
+/* search result section */
+.phone-title{
+    color: rgb(255, 105, 36);
+}
+#show-more-display{
+    display: none;
+}
+#show-more-button{
     display: none;
 }
 
