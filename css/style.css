@@ -43,6 +43,11 @@ body{
     display: none;
 }
 
+/* empty fill  */
+#fill-error{
+    font-size: medium;
+    display: none;
+}
 /* result found section  */
 #result-found{
     display: none;

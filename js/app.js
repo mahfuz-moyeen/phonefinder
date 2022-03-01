@@ -6,6 +6,7 @@ phoneDetails.className ='row align-items-center';
 
 // get data by search
 const getSearch = () => {
+    document.getElementById('fill-error').style.display ='none';
     document.getElementById('result-found').style.display= "none";
     document.getElementById('show-more-button').style.display ='none';
     document.getElementById('show-more-display').style.display = 'none';
@@ -22,9 +23,10 @@ const getSearch = () => {
         searchResult.innerHTML = '';
         document.getElementById('not-found').style.display = "none";
         document.getElementById('spinner-section').style.display='none';
-        alert('You did not search anything');
+        document.getElementById('fill-error').style.display ='block';
     }
     else {
+        document.getElementById('fill-error').style.display ='none';
         fetch(`https://openapi.programming-hero.com/api/phones?search=${searchValue}`)
         .then(response => response.json())
         .then(data => displayResult(data.data))
