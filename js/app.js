@@ -181,6 +181,12 @@ const showDisplay =(data , section) =>{
     });
 };
 
+// add enter key button
+document.onkeydown = function(){
+    if(window.event.keyCode === 13){
+        getSearch();
+    }
+};
 
 // show more button 
 const showOverResult = () =>{
