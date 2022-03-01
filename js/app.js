@@ -83,8 +83,8 @@ const displayDetails = data => {
     div.className = 'details-photo col-sm-6'
     div.innerHTML = `
         <div class="d-flex justify-content-center"><img class="w-50" src="${data.image}"></div>
-        <h1 class="text-center my-2">${data?.name || ''}</h1>
-        <h3 class="text-center fs-4 my-2">Band: ${data?.brand || ''}</h3>
+        <h1 class="text-center my-2">${data?.name || 'No Found'}</h1>
+        <h3 class="text-center fs-4 my-2">Band: ${data?.brand || 'No Found'}</h3>
     `;
     phoneDetails.appendChild(div);
 
@@ -174,10 +174,10 @@ const showDisplay =(data , section) =>{
         div.className = 'col';
         div.innerHTML = `
         <div class="card border-0">
-            <img src="${result.image}" class="card-img-top w-50 mx-auto mt-3" alt="${result?.phone_name || ''}">
+            <img src="${result.image}" class="card-img-top w-50 mx-auto mt-3" alt="${result?.phone_name || 'No Found'}">
             <div class="card-body text-center">
-                <h5 class="card-title phone-title">${result?.phone_name || ''}</h5>
-                <p class="card-text mb-2">Band: ${result?.brand ||''}</p>
+                <h5 class="card-title phone-title">${result?.phone_name || 'No Found'}</h5>
+                <p class="card-text mb-2">Band: ${result?.brand ||'No Found'}</p>
                 <button class="btn btn-info details-button" onclick="getDetails('${result.slug}')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">See Details</button>
             </div>
         </div>
