@@ -13,8 +13,8 @@ const getSearch = () => {
     }
     else {
         fetch(`https://openapi.programming-hero.com/api/phones?search=${searchValue}`)
-            .then(response => response.json())
-            .then(data => displayResult(data.data))
+        .then(response => response.json())
+        .then(data => displayResult(data.data))
     };
 };
 
@@ -26,7 +26,7 @@ const displayResult = results => {
 
         //search result
         results.forEach(result => {
-            if (results.indexOf(result) < 2) {
+            if (results.indexOf(result) < 20) {
                 const div = document.createElement('div');
                 div.className = 'col';
                 div.innerHTML = `
@@ -35,7 +35,7 @@ const displayResult = results => {
                     <div class="card-body text-center">
                         <h5 class="card-title">${result.phone_name}</h5>
                         <p class="card-text mb-2">Band: ${result.brand}</p>
-                        <button class="btn btn-info" onclick="getDetails('${result.slug}')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">See Details</button>
+                        <button class="btn btn-info details-button" onclick="getDetails('${result.slug}')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">See Details</button>
                     </div>
                 </div>
                  `;
@@ -68,7 +68,7 @@ const displayDetails = data => {
     div.innerHTML = `
         <div class="d-flex justify-content-center"><img class="w-50" src="${data.image}"></div>
         <h1 class="text-center my-2">${data.name}</h1>
-        <h2 class="text-center my-2">${data.brand}</h2>
+        <h3 class="text-center fs-3 my-2">${data.brand}</h3>
     `;
     phoneDetails.appendChild(div);
 
@@ -113,7 +113,7 @@ const displayDetails = data => {
                 <h4>Sensors:</h4>
             </div>
             <div class="col-sm-8 col-8" id="sensors-div">
-                <p>${data.mainFeatures.sensors.join(", ")}</p>
+                <p>${data.mainFeatures?.sensors.join(", ") || ''}</p>
                  
             </div>
         </div>
@@ -151,4 +151,10 @@ const displayDetails = data => {
         detailsDiv.appendChild(othersDiv);
     }
     phoneDetails.appendChild(detailsDiv);
+};
+
+const dropDown = text =>{
+    fetch(`https://openapi.programming-hero.com/api/phones?search=${text}`)
+    .then(response => response.json())
+    .then(data => displayResult(data.data))
 };
