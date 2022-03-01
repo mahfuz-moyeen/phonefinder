@@ -3,15 +3,15 @@ const searchResult = document.getElementById('search-result');
 const phoneDetails = document.getElementById('phone-details');
 phoneDetails.className ='row align-items-center';
 
-
 // get data by search
 const getSearch = () => {
     document.getElementById('not-found').style.display = "none";
     document.getElementById('spinner-section').style.display='block';
     searchResult.innerHTML = '';
+
     const searchInput = document.getElementById('search-input');
     const searchValue = searchInput.value.toLowerCase();
-    
+
     if (searchValue === '') {
         searchResult.innerHTML = '';
         document.getElementById('not-found').style.display = "none";
@@ -23,6 +23,7 @@ const getSearch = () => {
         .then(response => response.json())
         .then(data => displayResult(data.data))
     };
+    searchInput.value = '';
 };
 
 // display search result
@@ -36,10 +37,10 @@ const displayResult = results => {
                 div.className = 'col';
                 div.innerHTML = `
                 <div class="card border-0">
-                    <img src="${result.image}" class="card-img-top w-50 mx-auto mt-3" alt="${result.phone_name}">
+                    <img src="${result.image}" class="card-img-top w-50 mx-auto mt-3" alt="${result?.phone_name || ''}">
                     <div class="card-body text-center">
-                        <h5 class="card-title">${result.phone_name}</h5>
-                        <p class="card-text mb-2">Band: ${result.brand}</p>
+                        <h5 class="card-title">${result?.phone_name || ''}</h5>
+                        <p class="card-text mb-2">Band: ${result?.brand ||''}</p>
                         <button class="btn btn-info details-button" onclick="getDetails('${result.slug}')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">See Details</button>
                     </div>
                 </div>
@@ -74,8 +75,8 @@ const displayDetails = data => {
     div.className = 'details-photo col-sm-6'
     div.innerHTML = `
         <div class="d-flex justify-content-center"><img class="w-50" src="${data.image}"></div>
-        <h1 class="text-center my-2">${data.name}</h1>
-        <h3 class="text-center fs-4 my-2">Band: ${data.brand}</h3>
+        <h1 class="text-center my-2">${data?.name || ''}</h1>
+        <h3 class="text-center fs-4 my-2">Band: ${data?.brand || ''}</h3>
     `;
     phoneDetails.appendChild(div);
 
@@ -96,7 +97,7 @@ const displayDetails = data => {
                 <h4>Display Size:</h4>
             </div>
             <div class="col-sm-8 col-8">
-                 <p>${data.mainFeatures.displaySize}</p>
+                 <p>${data.mainFeatures?.displaySize || 'No found'}</p>
             </div>
         </div>
         <div class="row">
@@ -104,7 +105,7 @@ const displayDetails = data => {
                 <h4>chipSet:</h4>
             </div>
             <div class="col-sm-8 col-8">
-                 <p>${data.mainFeatures.chipSet}</p>
+                 <p>${data.mainFeatures?.chipSet || 'No found'}</p>
             </div>
         </div>
         <div class="row">
@@ -112,7 +113,7 @@ const displayDetails = data => {
                 <h4>Memory:</h4>
             </div>
             <div class="col-sm-8 col-8">
-                 <p>${data.mainFeatures.memory}</p>
+                 <p>${data.mainFeatures?.memory || 'No found'}</p>
             </div>
         </div>
         <div class="row">
@@ -120,7 +121,7 @@ const displayDetails = data => {
                 <h4>Sensors:</h4>
             </div>
             <div class="col-sm-8 col-8" id="sensors-div">
-                <p>${data.mainFeatures?.sensors.join(", ") || ''}</p>
+                <p>${data.mainFeatures?.sensors.join(", ") || 'No found'}</p>
                  
             </div>
         </div>
@@ -143,7 +144,7 @@ const displayDetails = data => {
                             <h4 class="text-end">${prop}:</h4>
                         </div>
                         <div class="col-sm-8 col-8">
-                             <p>${data.others[prop]}</p>
+                             <p>${data?.others[prop] || 'No'}</p>
                         </div>
                 `;
             othersDiv.appendChild(div);
@@ -159,6 +160,8 @@ const displayDetails = data => {
 
 const dropDown = text =>{
     searchResult.innerHTML = '';
+    document.getElementById('not-found').style.display = "none";
+    document.getElementById('spinner-section').style.display='block';
     fetch(`https://openapi.programming-hero.com/api/phones?search=${text}`)
     .then(response => response.json())
     .then(data => displayResult(data.data))
