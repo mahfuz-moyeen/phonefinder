@@ -45,7 +45,7 @@ const displayResult = data => {
         const topTwenty = data.filter(result => data.indexOf(result) < 20);
         showDisplay(topTwenty,searchResult);
         // over twenty result
-        const overTwenty = data.filter(result => data.indexOf(result) >= 2);
+        const overTwenty = data.filter(result => data.indexOf(result) >= 20);
         showDisplay(overTwenty,showMoreResult);
         
         // show more button no off
